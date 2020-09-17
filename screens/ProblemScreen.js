@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, Button, TouchableOpacity} from 'react-native';
+import {connect} from 'react-redux';
+import AppState from '../models/appState';
+import Problem from '../models/problem';
 
-function Problem() {
+function ProblemScreen(problem: Problem) {
   let [state, setState] = useState({answer: ''});
 
   const enterDigit = (digit: string): void => {
@@ -21,8 +24,10 @@ function Problem() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Problem #1</Text>
-      <Text style={styles.problem}>1 + 1 =</Text>
-      <Text style={styles.problem}>{state.correct ? "CORRECT" : state.answer || '?'}</Text>
+      <Text style={styles.problem}>{1 + 1} =</Text>
+      <Text style={styles.problem}>
+        {state.correct ? 'CORRECT' : state.answer || '?'}
+      </Text>
       <View style={styles.buttonRow}>
         <TouchableOpacity
           style={styles.button}
@@ -194,4 +199,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Problem;
+export default connect((state: AppState) => state.problemSets[0].problems[0])(
+  ProblemScreen,
+);
